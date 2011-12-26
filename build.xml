@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="build" name="auction2011">
+    <property environment="env"/>
+    <property name="ECLIPSE_HOME" value="../../eclipse"/>
+    <property name="junit.output.dir" value="junit"/>
+	<property name="glassfish.home" value="/home/vetal/glassfish3/glassfish"/>
+	   
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.6"/>
+    <property name="source" value="1.6"/>
+    <path id="JUnit 4.libraryclasspath">
+        <pathelement location="${ECLIPSE_HOME}/plugins/org.junit_4.8.2.v4_8_2_v20110321-1705/junit.jar"/>
+        <pathelement location="${ECLIPSE_HOME}/plugins/org.hamcrest.core_1.1.0.v20090501071000.jar"/>
+    </path>
+    <path id="EAR Libraries.libraryclasspath"/>
+    <path id="auction2011.classpath">
+        <pathelement location="build/classes"/>
+        <path refid="JUnit 4.libraryclasspath"/>
+        <pathelement location="WebContent/WEB-INF/lib/common-annotations.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/commons-beanutils-1.8.0.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/commons-collections-3.2.1.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/commons-digester-1.8.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/commons-el.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/commons-email-1.0.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/commons-io-1.3.1.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/commons-lang-2.3.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/commons-logging-1.1.1.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/commons-validator-1.3.1.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/eclipselink.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/ejb3-persistence.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/ejb-api-3.0.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/javax.persistence_2.0.3.v201010191057.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/postgresql-8.4-701.jdbc4.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/commons-lang-2.3.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/hibernate-validator-4.0.1.GA.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/javax.inject.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/log4j-1.2.14.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/persistence-2_0-final-jar_and_schema.zip"/>
+        <pathelement location="WebContent/WEB-INF/lib/slf4j-api-1.5.6.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/slf4j-log4j12-1.5.6.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/validation-api-1.0.0.GA.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/javax.faces.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/ldapjdk.jar"/>
+        <path refid="EAR Libraries.libraryclasspath"/>
+    </path>
+    <target name="init">
+        <mkdir dir="build/classes"/>
+    	 <mkdir dir="build/ear"/>
+        <copy includeemptydirs="false" todir="build/classes">
+            <fileset dir="src">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+        <copy includeemptydirs="false" todir="build/classes">
+            <fileset dir="test">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="build/classes"/>
+    	 <delete dir="build/ear"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="build/classes" source="${source}" target="${target}">
+            <src path="src"/>
+            <classpath refid="auction2011.classpath"/>
+        </javac>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="build/classes" source="${source}" target="${target}">
+            <src path="test"/>
+            <classpath refid="auction2011.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
+        <copy todir="${ant.library.dir}">
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </copy>
+        <unzip dest="${ant.library.dir}">
+            <patternset includes="jdtCompilerAdapter.jar"/>
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </unzip>
+    </target>
+    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
+        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+        <antcall target="build"/>
+    </target>
+    <target name="TestAddressService">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="ua.cn.stu.auction2011.service.TestAddressService" todir="${junit.output.dir}"/>
+            <classpath refid="auction2011.classpath"/>
+        </junit>
+    </target>
+    <target name="TestLottService">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="ua.cn.stu.auction2011.service.TestLottService" todir="${junit.output.dir}"/>
+            <classpath refid="auction2011.classpath"/>
+        </junit>
+    </target>
+    <target name="TestLottService.testGetAllTypeOfLotts">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="ua.cn.stu.auction2011.service.TestLottService" todir="${junit.output.dir}"/>
+            <classpath refid="auction2011.classpath"/>
+        </junit>
+    </target>
+    <target name="TestUserService">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="ua.cn.stu.auction2011.service.TestUserService" todir="${junit.output.dir}"/>
+            <classpath refid="auction2011.classpath"/>
+        </junit>
+    </target>
+    <target name="junitreport">
+        <junitreport todir="${junit.output.dir}">
+            <fileset dir="${junit.output.dir}">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${junit.output.dir}"/>
+        </junitreport>
+    </target>
+	
+	 <presetdef name="asadmin">
+		  <java jar="${glassfish.home}/modules/admin-cli.jar" fork="true" jvm="${java.home}/bin/java" >
+		   
+		</java>
+		</presetdef>
+			
+		<target name="deploy">
+			<asadmin failonerror="true">
+			    <arg value="deploy"/>
+			    <arg value="build/ear/auction2011.war" />
+			  </asadmin>
+			</target>
+		
+		<target name="redeploy">
+		<asadmin>
+		    <arg value="redeploy" />
+			<arg value="auction2011"/>
+			<!--	<arg value="-keepSessions=true" />
+			<arg value="-keepState=web,ejb" />
+			-properties keepSessions=true
+		-keepState=web,ejb 	 <arg value="-secure=false" />
+		-s -contextroot		 <arg value="-s"/>
+			<arg value="-contextroot"/> java -classpath $GLASSFISH_HOME/glassfish/lib/gf-client.jar:/home/user1/myclasses acme.MyClient
+			<arg value="auction2011"/>
+	-->
+		
+		  </asadmin>
+		</target>
+		
+		<target name="undeploy">
+		<asadmin>
+		    <arg value="undeploy" />
+			<arg value="auction2011" />
+		  </asadmin>
+		</target>
+		
+		  <target name="war" depends="build-project" >
+		       <war destfile="build/ear/auction2011.war" webxml="WebContent/WEB-INF/web.xml" update="true">
+		            <fileset dir="WebContent"/>
+		       		<exclude name="WEB-INF/context.xml"/>
+		            <lib dir="WebContent/WEB-INF/lib"/>
+		       		 <classes dir="build/classes"/>
+		   
+		       </war>
+		   <!-- <merge-css src-file="WebContent/css/style.css" dest-file="css/style.css" /> 
+		  	<concat destfile="css/style.css">
+		  	            <fileset dir="WebContent/css/" includes="style.css" />
+		       
+		  	</concat>  	-->    
+		  </target>
+</project>

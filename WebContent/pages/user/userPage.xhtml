@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <f:view contentType="text/html"/>
+    <ui:composition template="/template/master.xhtml">
+  	   <ui:define name="windowTitle">home_user
+  	  </ui:define>
+ <ui:define name="topmeny">
+			 <h:form>
+			 <ul id="menu">
+				<li><h:commandLink action="/pages/user/userPage" class="but1_active">Дом</h:commandLink></li>
+				<li><h:commandLink  class="but2" action="/pages/login" value="Войти" rendered="${facesContext.getCurrentInstance().getExternalContext().getRemoteUser() eq null}"/>
+     			 <h:commandLink rendered="${facesContext.getCurrentInstance().getExternalContext().getRemoteUser() ne null}" class="but2" action="${uspageb.logOut()}" value="Выйти"/></li>
+				<li><h:commandLink class="but3" action="/pages/user/userMessage">Письма<h:outputLabel
+   	  style="font: bold 13pt Arial" rendered="#{uspageb.messageCount ne 0}">(+#{uspageb.messageCount})</h:outputLabel></h:commandLink></li>
+				<li><h:commandLink class="but6" action="/pages/user/userRats">Ставки</h:commandLink></li>
+				<li><h:commandLink class="but5" action="/pages/user/userLott">Лоты</h:commandLink></li>
+			<li><a></a></li>
+			<li>
+			<h:commandLink rendered="${facesContext.externalContext.isUserInRole('admin')}" action="/pages/admin/listUsers" class="but6_active">Администрирование</h:commandLink>
+			</li>
+			</ul>
+			</h:form>
+			</ui:define>
+				  <ui:define name="content"> 
+			<h:form>	         		
+        	 <h:graphicImage url="#{resource[uspageb.address.img]}" />
+         	<h:outputText value="#{uspageb.user.name}" />
+    		<h:dataTable value="#{uspageb.address}" var="a" border="1" 
+      cellpadding="2" cellspacing="0" 
+    			styleClass="order-table"
+    			headerClass="order-table-header"
+    			rowClasses="order-table-odd-row,order-table-even-row">
+    			<h:column>
+ 				<f:facet name="header">country</f:facet>
+         		<h:inputText value="#{a.country}" size="10"/>
+         		</h:column>
+    			<h:column>
+ 				<f:facet name="header">city</f:facet>
+         		<h:inputText value="#{a.city}" size="10"/>
+         		</h:column>
+         		<h:column>
+ 				<f:facet name="header">address</f:facet>
+         		<h:inputText value="#{a.addr}" size="10"/>
+         		</h:column>
+         		<h:column>
+ 				<f:facet name="header">userCode</f:facet>
+         		<h:inputText value="#{a.code}" size="10"/>
+         		</h:column>			
+    		</h:dataTable>
+    		<h:commandButton value="saveChange" action="#{usersb.chngUserAdress()}" />
+    		</h:form>	 
+      </ui:define>
+  	  <ui:define name="menuLeft">
+     <ui:include src="/template/findLots.xhtml"/>
+  </ui:define>      
+  
+        </ui:define>
+         <ui:define name="content3">
+   		<br/>
+ 		</ui:define>  
+ 		   <ui:define name="content1">
+   		<br/>
+ 		</ui:define>  
+ 		   <ui:define name="content2">
+   		<br/>
+ 		</ui:define>  
+  
+</ui:composition> 
+</html>

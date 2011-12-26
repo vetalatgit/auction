@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitionam.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <f:view contentType="text/html"/>
+    <ui:composition template="/template/master.xhtml">
+  	   <ui:define name="windowTitle">home_user
+  	  </ui:define>
+  	  
+  	   <ui:define name="topmeny">
+			
+			
+			 <h:form>
+		
+			<ul id="menu">
+				<li><h:commandLink action="/pages/user/userPage" class="but1">Дом</h:commandLink></li>
+				<li><h:commandLink  class="but2" action="/pages/login" value="Войти" rendered="${facesContext.getCurrentInstance().getExternalContext().getRemoteUser() eq null}"/>
+     			 <h:commandLink rendered="${facesContext.getCurrentInstance().getExternalContext().getRemoteUser() ne null}" class="but2" action="${uspageb.logOut()}" value="Выйти"/></li>
+				<li><h:commandLink class="but3_active" action="/pages/user/userMessage">Письма<h:outputLabel
+   	  style="font: bold 13pt Arial" rendered="#{uspageb.messageCount ne 0}">(+#{uspageb.messageCount})</h:outputLabel></h:commandLink></li>
+				<li><h:commandLink class="but6" action="/pages/user/userRats">Ставки</h:commandLink></li>
+				<li><h:commandLink class="but5" action="/pages/user/userLott">Лоты</h:commandLink></li>
+			<li><a></a></li>
+			<li>
+			<h:commandLink rendered="${facesContext.externalContext.isUserInRole('admin')}" action="/pages/admin/listUsers" class="but6_active">Администрирование</h:commandLink>
+			</li>
+			</ul>
+			</h:form>
+			</ui:define>
+  	  
+  	   <ui:define name="content"> 
+  	    <div id="content">
+	  <h:form>
+	<h:outputText value="Messages #{messervb.rendlist.firstEntity + 1}..#{messervb.rendlist.lastEntity} of
+     #{messervb.rendlist.count}"/> 
+ 	<h:commandButton action="${messervb.rendlist.prev}" value="&lt;&lt;#{messervb.rendlist.batchSize}"        
+       rendered="#{messervb.rendlist.renp}" /> 
+ 		 <h:commandButton  action="${messervb.rendlist.next}" value="&gt;&gt;#{messervb.rendlist.batchSize}"
+    rendered="#{messervb.rendlist.renn}" />
+ 		</h:form>
+ 		<h:form>
+    		<h:commandButton value="delete" action="#{messervb.executeDelete()}"/>
+    		
+    		<h:dataTable value="${messervb.messages}" var="m" border="1" 
+      cellpadding="1">
+   			
+   				
+		
+				<h:column border="1">
+				<h:commandLink value="ch" action="#{messervb.delMessage(m.id)}"/>
+				</h:column>
+ 			
+    			<h:column border="1">
+    		
+    			<h:commandLink  action="#{messervb.showMessageDetail(m.id)}">
+    			<h:outputText value="${m.authorname}   "/>
+    		
+ 				
+    			<h:outputText value="#{m.user.login}   "/>
+         	
+    			<h:outputText value="#{m.them}   "/>
+        
+    			<h:outputText value="#{m.date.time}   ">
+    			<f:convertDateTime pattern="d-M-yyyy"/>
+    			</h:outputText>
+      
+				</h:commandLink>
+		
+    		
+    			</h:column>
+    		</h:dataTable>
+    		</h:form>
+    		<h:form rendered="#{messervb.showdetail}">
+    		<h:dataTable value="#{messervb.shmes}" var="sm" border="2" 
+      cellpadding="3" cellspacing="2" styleClass="order-table"
+    			headerClass="order-table-header"
+    			rowClasses="order-table-odd-row,order-table-even-row">
+    			<h:column>
+ 				<f:facet name="header">from</f:facet>
+    			<h:outputText value="${sm.authorname}"/>
+    			</h:column>
+    			<h:column>
+ 				<f:facet name="header">to</f:facet>
+    			<h:outputText value="#{sm.user.login}"/>
+         		</h:column>
+         		<h:column>
+ 				<f:facet name="header">them</f:facet>
+    			<h:outputText value="#{sm.them}"/>
+         		</h:column>
+         		<h:column>
+    			<f:facet name="header">time</f:facet>
+    			<h:outputText value="#{sm.date.getTime()}">
+    			<f:convertDateTime pattern="d-M-yyyy"/>
+    			</h:outputText>
+         		</h:column>
+    		</h:dataTable>
+    		<h:dataTable  size="120" value="#{messervb.shmes}" var="sm" border="0" 
+      cellpadding="2" cellspacing="0" styleClass="order-table"
+    			headerClass="order-table-header"
+    			rowClasses="order-table-odd-row,order-table-even-row">
+    			<h:column>
+ 				<f:facet name="header">message</f:facet>
+         		<h:outputText size="120" value="#{sm.data}"/>
+         		</h:column>
+    		</h:dataTable>
+    		<h:commandButton value="Ответить" action="/pages/hello"/>
+    		<h:commandButton value="hideInfo" action="${messervb.setShowdetail('false')}"/>
+    		</h:form>	
+    		
+    		<br/>
+    		<h:form id="formtosendmes">
+				<h:messages style="color:red;margin:20px;" />
+    			<h:outputText value="пользователь"/><br/>
+    			<h:inputText id="usdest" value="${messervb.addinguser}" > 
+    				<f:ajax event="change" render="formtosendmes" listener="#{messervb.userNotNullVal}" />
+    			</h:inputText>
+    			<h:message id="mesforus" for="usdest" style="color:blue" />
+    			<div>
+    			<h:outputText value="тема"/><br/>
+    			<h:inputText size="58" value="${messervb.newMessage.them}"/>
+         		</div>
+         		<div>
+         		<h:outputText value="сообщение"/><br/>
+    			<h:inputTextarea cols="75" rows="7" value="#{messervb.newMessage.data}"/>
+    			</div>
+   			<h:commandButton value="send" action="${messervb.doSendMessage()}" />
+    		<h:commandButton value="cancel" action="/pages/user/userMessage" />
+    		</h:form>
+    		
+  
+    		 
+    		</div>
+    	
+    		 
+    		 
+      </ui:define>
+         <ui:define name="content3">
+   		<br/>
+ 		</ui:define>  
+ 		   <ui:define name="content1">
+   		<br/>
+ 		</ui:define>  
+ 		   <ui:define name="content2">
+   		<br/>
+ 		</ui:define>  
+</ui:composition> 
+</html>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <f:view contentType="text/html"/>
+  <ui:composition template="/template/master.xhtml">
+	<ui:define name="topmeny">
+			<h:form>
+			<ul id="menu">
+				<li><h:commandLink action="/pages/hello" class="but1_active">Главная страница</h:commandLink></li>
+				<li><h:commandLink  class="but2" action="/pages/login" value="Войти" rendered="${facesContext.getCurrentInstance().getExternalContext().getRemoteUser() eq null}"/>
+     			 <h:commandLink rendered="${facesContext.getCurrentInstance().getExternalContext().getRemoteUser() ne null}" class="but2" action="${uspageb.logOut()}" value="Выйти"/></li>
+				<li><h:commandLink class="but3" action="/pages/regpage" value="Зарегестрироватся" /></li> 
+				 <li><h:commandLink action="/pages/regpage" class="but5" value="Поиск"/></li> 
+				<li><h:commandLink action="/pages/regpage" class="but6" value="Контакты"/></li>
+			<li><a></a></li>
+			<li>
+			<h:commandLink rendered="${facesContext.externalContext.isUserInRole('admin')}" action="/pages/admin/listUsers" class="but6">Администрирование</h:commandLink>
+			</li>
+			</ul>
+			</h:form>
+			</ui:define>
+</ui:composition> 
+</html>

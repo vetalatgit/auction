@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core">
+      <f:view contentType="text/html"/>
+    <ui:composition template="/template/master.xhtml">
+  	  <ui:define name="windowTitle">reg_in_auction </ui:define>
+	   <ui:define name="topmeny">
+			<h:form>
+			<ul id="menu">
+				<li><h:commandLink action="/pages/hello" class="but1">Главная страница</h:commandLink></li>
+				<li><h:commandLink  class="but2" action="/pages/login" value="Войти" rendered="${facesContext.getCurrentInstance().getExternalContext().getRemoteUser() eq null}"/>
+     			 <h:commandLink rendered="${facesContext.getCurrentInstance().getExternalContext().getRemoteUser() ne null}" class="but2" action="${uspageb.logOut()}" value="Выйти"/></li>
+				<li><h:commandLink class="but3_active" action="/pages/regpage" value="Зарегестрироватся" /></li> 
+				 <li><h:commandLink action="/pages/regpage" class="but5" value="Поиск"/></li> 
+				<li><h:commandLink action="/pages/regpage" class="but6" value="Контакты"/></li>
+			<li><a></a></li>
+			<li>
+			<h:commandLink rendered="${facesContext.externalContext.isUserInRole('admin')}" action="/pages/admin/listUsers" class="but6">Администрирование</h:commandLink>
+			</li>
+			</ul>
+			</h:form>
+			</ui:define>
+	  <ui:define name="content">
+     <h:body>
+	<h:form id="contact-form">	<fieldset>
+		<h:panelGrid columns="3" width="200" height="200" >
+ 				<h:outputText value="Логин"   />
+ 	    		<h:column>
+    		
+    			<h:inputText type="text" id="loginregpage" value="#{usersb.newUser.login}"  />
+         		</h:column>
+         		<h:message for="loginregpage" style="color:red" />
+         		<h:outputText value="Имя"   />
+				 <h:column>
+ 				
+    			<h:inputText id="unamei"  type="text"  value="#{usersb.newUser.name}"    >
+    			</h:inputText>
+         		</h:column>
+         		<h:message for="unamei" style="color:red" />
+    			
+         		<h:outputText value="Телефон"   />
+         		<h:column>
+ 			
+    			<h:inputText  type="text"  value="#{usersb.newUser.phone}" id="phone">
+         		</h:inputText>
+         		</h:column>
+         		<h:message for="phone" style="color:red" />
+         		
+         		<h:outputText value="Идентификационный номер"   />
+         		<h:column>
+ 			
+    			<h:inputText  type="text" value="#{usersb.newUser.identnumb}"  id="identn">
+         		</h:inputText>
+         		</h:column>
+         		<h:message for="identn" style="color:red" />
+         		
+ 				<h:outputText value="Eл. почтa"   />
+    			<h:column>
+    			<h:inputText id="uemail" required="true" requiredMessage="Ел. почта не может быть пустой!" type="text"  value="#{usersb.newUser.email}"  >
+    			 </h:inputText><h:message for="uemail" style="color:red" />
+    			</h:column>
+         		<br/>
+         	
+         		<h:outputText value="Пароль"   />
+			<h:inputSecret  type="text" required="true" requiredMessage="Пароль не может быть пустым!" redisplay="false" value="#{usersb.newUser.password}" id="pswu" >
+			
+         		</h:inputSecret>
+ 					<h:message for="pswu" style="color:red" />
+         		<h:outputText value="Повторите пароль" />
+				 <h:inputSecret type="text"  redisplay="false" required="true" requiredMessage="Повторите пароль!" value="#{usersb.rpassword}" id="rpswu" >
+			
+         		</h:inputSecret>
+				 <h:message for="rpswu"  style="color:red" />
+		</h:panelGrid>
+		   	<h:commandLink styleClass="button" value="Registered" action="#{usersb.doAddUser()}" /></fieldset>
+
+	</h:form>
+	</h:body>
+  </ui:define>    
+       <ui:define name="content3">
+   		<br/>
+ 		</ui:define>  
+ 		   <ui:define name="content1">
+   		<br/>
+ 		</ui:define>  
+ 		   <ui:define name="content2">
+   		<br/>
+ 		</ui:define>  
+</ui:composition> 
+</html>

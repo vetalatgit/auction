@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitionam.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <f:view contentType="text/html"/>
+    <ui:composition template="/template/master.xhtml">
+  	  <ui:define name="windowTitle">user_info
+  	  </ui:define>
+  	  <ui:define name="content">
+		<h:form margin="10px">
+		<div id="content">
+		<div>
+				<h:graphicImage id="waveImgli" url="#{resource[usersb.reqaddr.img]}"/>
+        </div>
+    	<div>		<h:outputText value="#{usersb.requser.login}"/>
+</div>
+<div>
+ 				<h:outputText style="color:#464646">name: </h:outputText>
+    			<h:outputText value="#{usersb.requser.name}"   />
+         </div>		         		
+ 			<div>	
+ 			  <h:outputText value="mail:"/>
+ 			  <h:outputText value="#{usersb.requser.email}"/>
+         	 </div>	
+         	<h:form>
+         	<h:commandLink  style="color:#F35" value="-" action="#{usersb.decrRating(usersb.requser.login)}" actionListener="/pages/User"
+ 			 		rendered="${facesContext.getCurrentInstance().getExternalContext().getRemoteUser() ne null}"/><h:outputText value="#{usersb.requser.rating}"/>
+ 			 		<h:commandLink  style="color:#6AB" value="+" action="#{usersb.incrRating(usersb.requser.login)}"
+ 			 		rendered="${facesContext.getCurrentInstance().getExternalContext().getRemoteUser() ne null}"/>
+ 			 		<td/>
+ 			 		</h:form>
+         	</div>
+         	</h:form>	
+    		 </ui:define>
+</ui:composition> 
+</html>

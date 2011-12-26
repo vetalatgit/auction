@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2.0.3.xsd"
+	version="1.0" xmlns="http://java.sun.com/xml/ns/persistence">
+	<persistence-unit name="auct">
+		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+		<jta-data-source>jdbc/auct</jta-data-source>
+		<class>ua.cn.stu.auction2011.domain.Users</class>
+		<class>ua.cn.stu.auction2011.domain.Address</class>
+		<class>ua.cn.stu.auction2011.domain.LotInfo</class>
+		<class>ua.cn.stu.auction2011.domain.Lott</class>
+		<class>ua.cn.stu.auction2011.domain.Message</class>
+		<class>ua.cn.stu.auction2011.domain.Rade</class>
+				<class>go.domain.DomainObject</class>
+		<properties>
+			<property name="eclipselink.logging.level" value="FINE"/>
+			<!-- EclipseLink should create the database schema automatically -->
+		<property name="eclipselink.ddl-generation" value="create-tables" />
+			<property name="eclipselink.ddl-generation.output-mode"
+				value="database" />
+		</properties>
+
+	</persistence-unit>
+</persistence>

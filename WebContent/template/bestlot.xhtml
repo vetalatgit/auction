@@ -1,0 +1,20 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core">
+    <f:view contentType="text/html"/>
+	
+	<ui:repeat var="sl" value="${lotservb.sortlot}">
+   			
+   			<div class="item">
+						<h:form><h:commandLink action="${lotservb.reqLot()}">  <h:graphicImage url="#{resource[(lotservb.getLotDetails(sl.id))]}" alt="" width="248" height="234" /><f:param name="p_lotid" value="#{sl.id}"/></h:commandLink><br />
+						<span>$#{sl.realprice}</span><h:commandLink action="${lotservb.reqLot()}" class="view">View        		
+						<f:param name="p_lotid" value="#{sl.id}"/>
+         				</h:commandLink>
+         				<h:commandLink action="${lotservb.reqLot()}" class="buy" value="Сделать ставку" rendered="${facesContext.getCurrentInstance().getExternalContext().getRemoteUser() ne null}"/>
+						</h:form>
+			</div>
+	   </ui:repeat>
+ </ui:composition>    
+
+

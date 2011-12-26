@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE resources PUBLIC "-//GlassFish.org//DTD GlassFish Application Server 3.1 Resource Definitions//EN" "http://glassfish.org/dtds/glassfish-resources_1_5.dtd">
+<resources>
+ 
+   <jdbc-connection-pool driver-classname="" datasource-classname="org.postgresql.ds.PGSimpleDataSource" res-type="javax.sql.DataSource" name="aucts">
+      <property name="portNumber" value="5432"></property>
+      <property name="databaseName" value="auct"></property>
+      <property name="datasourceName" value="jdbc:postgresql://localhost:5432/auct"></property>
+      <property name="roleName" value="postgres"></property>
+      <property name="serverName" value="localhost"></property>
+      <property name="user" value="postgres"></property>
+      <property name="password" value="postgres"></property>
+    </jdbc-connection-pool>
+    <jdbc-resource pool-name="aucts" jndi-name="jdbc/auct"></jdbc-resource>
+ 
+</resources>
+

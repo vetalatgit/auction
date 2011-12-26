@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitionam.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <f:view contentType="text/html"/>
+    <ui:composition template="/template/master.xhtml">
+  	  <ui:define name="windowTitle">lott_info
+  	  </ui:define>
+  	  <ui:define name="content">
+  	 <div id="item">
+		<h:form>
+			<div>
+		<h:outputText value="Категория  #{lotservb.reqlott.type}"/>
+		 </div>
+		<h4>#{lotservb.reqlott.name}</h4>
+		<h:outputText value="(ставки принимаются до #{lotservb.reqlott.datepay.getTime()}) ">
+    			<f:convertDateTime pattern="d-M-yyyy"/>
+    			</h:outputText>
+		<div>
+				<p:galleria effect="fade" effectSpeed="1000">
+				
+				<ui:repeat var="lts" value="#{lotservb.reqlottinfo}">	
+				<h:graphicImage width="100"  url="#{resource[lts.img]}" title="#{lts.lott.name}"/>
+				</ui:repeat>
+			
+			</p:galleria> 
+        </div>
+    			
+
+ 			<div>	
+ 			<h:outputText value="Начальная ставка "/>
+    		<h:outputText value="#{lotservb.reqlott.price}"   />
+         	</div>	
+         	<div>	
+ 			<h:outputText value="Текущая ставка "/>
+    		<h:outputText value="#{radeb.getCurentrate(lotservb.reqlott.id).price}"   />
+         	</div>	
+         	
+         	<h:commandLink value="Купить сейчас всего за #{lotservb.reqlott.realprice}" action="/pages/user/userPage" />
+    		<div>	
+         		<h:outputText value="Владелец #{lotservb.getUsrByLot(lotservb.reqlott.id)}"   />
+			</div><br></br>
+			info:
+			<br></br>	
+			<h:outputText value="#{lotservb.reqlottinfo.get(0).lott.text}"/>
+  		</h:form><br></br>
+ 			<h:form>
+ 			coments:<br></br>
+ 			 	<ui:repeat var="cm" value="#{messervb.getComents(null,lotservb.reqlott.name)}">
+ 			 		<div style="background-color:#60b001">
+ 			 		<h:commandLink action="#{usersb.reqUser()}" actionListener="/pages/User"><h:graphicImage width="40" url="#{resource[usersb.getAddresOfUser(cm.authorname).img]}"/>
+ 			 		<f:param name="p_userid" value="#{usersb.getAddresOfUser(cm.authorname).user.id}"/>
+ 			 		</h:commandLink>
+ 			 		<h:outputText value="#{cm.authorname} /"/><h:outputText value="#{cm.date.getTime()}     ">
+ 			 		<f:convertDateTime pattern="d-M-yyyy"/></h:outputText>
+ 			 		<h:commandLink  style="color:#B4F" value="-" action="#{usersb.decrRating(usersb.getAddresOfUser(cm.authorname).user.login)}"
+ 			 		rendered="${facesContext.getCurrentInstance().getExternalContext().getRemoteUser() ne null}"/><h:outputText value="#{usersb.getAddresOfUser(cm.authorname).user.rating}"/>
+ 			 		<h:commandLink  style="color:#FF3" value="+" action="#{usersb.incrRating(usersb.getAddresOfUser(cm.authorname).user.login)}"
+ 			 		rendered="${facesContext.getCurrentInstance().getExternalContext().getRemoteUser() ne null}"/>
+ 			 		<td/> <h:commandLink  style="color:#fff" value=" del" action="#{messervb.delMessage(cm.id)}" 
+ 			 		rendered="${facesContext.externalContext.isUserInRole('admin') or facesContext.externalContext.isUserInRole('moderator')}"/>
+ 			 		</div>
+ 			 		<div style="background-color:#BBB">
+ 			 		<h:outputText value="#{cm.data}"/>
+ 			 		</div>
+ 			 	</ui:repeat>
+ 			 </h:form>
+ 			 
+ 			<h:form margin="10px" rendered="#{facesContext.getCurrentInstance().getExternalContext().getRemoteUser() ne null}">
+		<h:messages style="color:red;margin:20px;" globalOnly="true"/>
+         		<div>
+         		<h:outputText value="coment:"/><br/>
+    			<h:inputTextarea cols="60" rows="10" value="#{messervb.newMessage.data}"/>
+    			</div>
+    		<h:commandButton value="send" action="${messervb.doSendComent(lotservb.reqlott.id)}" />
+    		</h:form><br/>
+    		<div>
+				<h:form margin="10px" rendered="#{facesContext.getCurrentInstance().getExternalContext().getRemoteUser() eq null}">
+				Оставлять коментарии могут только <br/>
+				 <h:commandLink action="/pages/regpage">Зарегестрированные</h:commandLink> пользователи
+				</h:form>
+			</div>
+				</div>
+    		 </ui:define>
+</ui:composition> 
+</html>

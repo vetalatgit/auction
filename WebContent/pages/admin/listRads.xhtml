@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:ui="http://java.sun.com/jsf/facelets"    
+   xmlns:f="http://java.sun.com/jsf/core">
+    <f:view contentType="text/html"/>
+    <ui:composition template="/template/master.xhtml">
+  	  <ui:define name="windowTitle">admin_list_users
+  	  </ui:define>
+ 	  	 <ui:define name="topmeny">
+			<h:form>
+			<ul id="menu">
+				<li><h:commandLink action="/pages/hello" class="but1">Главная страница</h:commandLink></li>
+				<li><h:commandLink  class="but2" action="/pages/login" value="Войти" rendered="${facesContext.getCurrentInstance().getExternalContext().getRemoteUser() eq null}"/>
+     			 <h:commandLink rendered="${facesContext.getCurrentInstance().getExternalContext().getRemoteUser() ne null}" class="but2" action="${uspageb.logOut()}" value="Выйти"/></li>
+				<li><h:commandLink class="but3" action="/pages/admin/listUsers">Пользователи</h:commandLink></li>
+				<li><h:commandLink class="but6_active" action="/pages/admin/listRads">Ставки</h:commandLink></li>
+				<li><h:commandLink class="but5" action="/pages/admin/listLots">Лоты</h:commandLink></li>
+			<li><a></a></li>
+			<li>
+			<h:commandLink rendered="${facesContext.externalContext.isUserInRole('admin')}" action="/pages/admin/listUsers" class="but6_active">Администрирование</h:commandLink>
+			</li>
+			</ul>
+			</h:form>
+			</ui:define>
+	  <ui:define name="content">
+	  <div id="content">
+      <h:form id="listrads">
+     <h:commandLink name="1000" type="submit"  style="width:120px" class="myButton" action="#{lotservb.doFindRat()}" value="Найти" />
+ 	  <h:dataTable value="#{radeb.newRade}" var="nr" border="1" margin="11 auto"
+      cellpadding="2" cellspacing="0"
+    			styleClass="order-table"
+    			headerClass="order-table-header"
+    			rowClasses="order-table-odd-row,order-table-even-row">
+    			
+    			<h:column>
+    			<f:facet name="header">isSale</f:facet>
+    			 <h:selectOneMenu value="#{nr.isdone}">
+   				<f:selectItems value="#{radeb.getSale()}" />
+   				</h:selectOneMenu>
+         		</h:column>
+         		
+         		<h:column>
+ 				<f:facet name="header">price</f:facet>
+    			<h:inputText value="#{nr.price}" size="10"   />
+         		</h:column>
+         		         		
+         		<h:column>
+ 				<f:facet name="header">timerateRate</f:facet>
+    			<h:inputText value="#{nr.timerate.time}" size="10">
+    			<f:convertDateTime pattern="d-M-yyyy"/>
+    			 </h:inputText>
+    			<h:message for="timerateRat" style="color:red" />
+         		</h:column>    
+         		<h:column>	
+         	<f:facet name="header">user</f:facet>
+            <h:selectOneMenu value="#{radeb.addinguser}">
+   			<f:selectItems value="#{radeb.getUsLogin()}" />
+   			</h:selectOneMenu>
+			</h:column>
+			 <h:column>	
+         	<f:facet name="header">lott</f:facet>
+            <h:selectOneMenu value="#{radeb.addinglot}">
+   			<f:selectItems value="#{radeb.getLotNames()}" />
+   			</h:selectOneMenu>
+			</h:column>
+    		</h:dataTable>
+    		<h:commandButton value="add" action="#{radeb.doAddRade()}" />
+    		</h:form>
+    	<h1>Rads list</h1>
+ 	<h:form id="listofrads">
+ 	 <div><h:commandLink action="${radeb.findAll()}">show all</h:commandLink></div>
+ 		<h:outputText value="rads #{radeb.rendlist.firstEntity + 1}..#{radeb.rendlist.lastEntity} of
+     #{radeb.rendlist.count}"/>
+ 	<h:commandButton action="#{radeb.rendlist.prev}" value="&lt;&lt;#{radeb.rendlist.batchSize}"        
+       rendered="#{radeb.rendlist.renp}"/> 
+ 		 <h:commandButton  action="#{radeb.rendlist.next}" value="&gt;&gt;#{radeb.rendlist.batchSize}"
+    rendered="#{radeb.rendlist.renn}" />
+ 		</h:form>
+ 		<h:form margin="10px">
+    		<h:dataTable value="#{radeb.rads}" var="r" border="1" 
+      cellpadding="2" cellspacing="0" 
+    			styleClass="order-table"
+    			headerClass="order-table-header"
+    			rowClasses="order-table-odd-row,order-table-even-row">
+    			<h:column >
+    			<f:facet name="header">id</f:facet>
+    			<h:outputText value="#{r.id}"/>
+    			</h:column>
+    			<h:column>
+    			<f:facet name="header">timerate</f:facet>
+    			<h:outputText value="${r.timerate.getTime()}" rendered="#{not radeb.rendlist.isRendComp(r.id)}" >
+    			<f:convertDateTime pattern="d-M-yyyy"/>
+    			</h:outputText>
+         		<h:inputText value="${r.timerate.time}" size="10" rendered="#{radeb.rendlist.isRendComp(r.id)}" >
+         		<f:convertDateTime pattern="d-M-yyyy"/>
+         		</h:inputText>
+         		</h:column>
+         					
+    			<h:column>
+    			<f:facet name="header">isSale</f:facet>
+    			 <h:selectOneMenu value="${r.isdone}" rendered="#{radeb.rendlist.isRendComp(r.id)}">
+   				<f:selectItems value="${radeb.getSale()}" />
+   				</h:selectOneMenu>
+   				<h:outputText value="${r.isdone}" rendered="#{not radeb.rendlist.isRendComp(r.id)}" />
+				</h:column>
+         		
+         		<h:column>
+ 				<f:facet name="header">price</f:facet>
+    			<h:outputText value="${r.price}" rendered="#{not radeb.rendlist.isRendComp(r.id)}" />
+         		<h:inputText value="${r.price}" size="10" rendered="#{radeb.rendlist.isRendComp(r.id)}" />
+         		</h:column>
+			 <h:column>	
+         	<f:facet name="header">lott</f:facet>
+            <h:selectOneMenu value="#{radeb.addinglot}" rendered="#{radeb.rendlist.isRendComp(r.id)}">
+   			<f:selectItems value="#{radeb.getLotNames()}" />
+   			</h:selectOneMenu>
+   			<h:outputText value="#{radeb.getLotByRade(r.id)}" rendered="#{not radeb.rendlist.isRendComp(r.id)}" />
+			</h:column>
+    			<h:column>	
+         		<f:facet name="header">user</f:facet>
+        		<h:selectOneMenu value="#{radeb.addinguser}" rendered="#{radeb.rendlist.isRendComp(r.id)}">
+   				<f:selectItems value="#{radeb.getUsLogin()}" />
+   				</h:selectOneMenu>
+   			 	<h:outputText value="#{radeb.getUsrByRade(r.id)}" rendered="#{not radeb.rendlist.isRendComp(r.id)}" />
+				</h:column>
+    		    <h:column>
+    		    <f:facet name="header">delete</f:facet>
+    			<h:commandButton value="del" action="#{radeb.delRade(r.id)}"/>
+    			</h:column>
+    		    
+    		     <h:column>
+    				<f:facet name="header">update</f:facet>
+    			<h:commandButton value="edit" action="#{radeb.rendlist.chRendComp(r.id)}" rendered="#{not radeb.rendlist.isRendComp(r.id)}"/>
+    			</h:column>
+    		</h:dataTable>
+    		<h:commandButton value="save" action="#{radeb.editRade()}" />
+    		</h:form>
+    		</div>
+  </ui:define>
+  	  <ui:define name="menuLeft">
+      <ui:include src="/template/findRats.xhtml"/>
+  </ui:define>      
+          	<ui:define name="content3">
+   		<br/>
+ 		</ui:define>  
+</ui:composition> 
+</html>

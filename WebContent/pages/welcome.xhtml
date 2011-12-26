@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:ui="http://java.sun.com/jsf/facelets"    
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:p="http://primefaces.prime.com.tr/ui"
+    xmlns:t="http://myfaces.apache.org/tomahawk">
+    <f:view contentType="text/html"/>
+    <f:loadBundle var="msg" basename="resources"/> 
+<h:head> 
+        <title> 
+        <ui:insert name="windowTitle">auction_home_page</ui:insert>
+        </title>
+       <link href="/auction2011/css/style.css" rel="stylesheet" type="text/css" media="all"/>
+<h:outputScript library="js" name="jquery-1.4.2.js" target="head" />
+<h:outputScript library="js" name="script.js" target="head" />
+<h:outputScript library="js" name="jquery.nivo.slider.pack.js" target="head" />
+</h:head>
+   
+<body>
+	<div id="header">
+		<div id="header_inside">
+			<img src="/auction2011/resources/images/header.jpg" alt="setalpm" width="999" height="222" border="0" usemap="#Map" /><br />																																										<div class="inner_copy"></div>
+			<ui:insert name="topmeny">
+			<h:form>
+			<ul id="menu">
+				<li><h:commandLink action="/pages/hello" class="but1">Главная страница</h:commandLink></li>
+				<li><h:commandLink  class="but2" action="/pages/login" value="Войти" rendered="${facesContext.getCurrentInstance().getExternalContext().getRemoteUser() eq null}"/>
+     			 <h:commandLink rendered="${facesContext.getCurrentInstance().getExternalContext().getRemoteUser() ne null}" class="but2" action="${uspageb.logOut()}" value="Выйти"/></li>
+				<li><h:commandLink class="but3" action="/pages/regpage" value="Зарегестрироватся" /></li> 
+				 <li><h:commandLink action="/pages/regpage" class="but5" value="Поиск"/></li> 
+				<li><h:commandLink action="/pages/regpage" class="but6" value="Контакты"/></li>
+			<li><a></a></li>
+			<li>
+			<h:commandLink rendered="${facesContext.externalContext.isUserInRole('admin')}" action="/pages/admin/listUsers" class="but6">Администрирование</h:commandLink>
+			</li>
+			</ul>
+			</h:form>
+			</ui:insert>
+		</div>
+	</div>
+<div id="content">
+   
+            <h:form id="uploadForm" enctype="multipart/form-data">
+                <h:panelGrid columns="3">
+                    <h:outputLabel for="file" value="Select file" />
+                    <t:inputFileUpload id="file" value="#{lotservb.uploadedFile}" required="true" />
+                    <h:message for="file" style="color: red;" />
+
+                    <h:panelGroup />
+                    <h:commandButton value="Submit" action="#{lotservb.submit}" />
+                    <h:message for="uploadForm" infoStyle="color: green;" errorStyle="color: red;" />
+                </h:panelGrid>
+            </h:form>
+            <br /><br />
+            <br /><br />
+  	</div>
+  	<div id="footer">
+		<div id="footer_inside">
+			<ul class="footer_menu">
+				<li><a href="index.html">Главная страница</a>|</li>
+				<li><a href="index2.html">Новости</a>|</li>
+				<li><h:form><h:commandLink action="/pages/user/userMessage">Контакты</h:commandLink></h:form></li>
+			</ul><br /><br />
+																																																												<div class="inner_copy"><a href="http://www.beautifullife.info/">beautiful</a><a href="http://www.grungemagazine.com/">grunge</a></div>
+		</div>
+	</div>
+	<h:form> 
+    <map name="Map">
+
+       <area shape="rect" coords="78,45,312,119" href="/auction2011/faces/pages/hello.xhtml"/>
+      <area shape="poly" coords="834,52,885,61,878,105,828,96" href="/auction2011/faces/pages/hello.xhtml"/>
+         <area shape="poly" coords="776,124,818,152,793,189,751,160"> 
+         <h:commandLink action="#{uspageb.logOut()}">aa</h:commandLink>
+   		</area>
+       <area shape="poly" coords="670,87,719,78,727,123,677,130" href="/auction2011/faces/pages/hello.xhtml" ></area>
+  </map>
+	</h:form>
+	  
+	</body>
+</html>

@@ -1,0 +1,28 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core">
+    <f:view contentType="text/html"/>
+ <td width="3" class="textcentr">
+      <div class="sidebar2" width="30" height="10" >
+   	  <ul class="nav">
+   	  <li><h:form> <h:commandLink action="/pages/user/listUsers">Письма<h:outputLabel
+   	  style="font: bold 13pt Arial" rendered="#{uspageb.messageCount ne 0}">(+#{uspageb.messageCount})</h:outputLabel></h:commandLink></h:form></li>
+  	  </ul>
+ 	  </div>
+ 	  </td><td width="3" class="textcentr">
+      <div class="sidebar2">
+   	  <ul class="nav" >
+   	  <h:form> <li><h:commandLink action="/pages/user/listRads">Ставки</h:commandLink></li>
+  	  <li> <h:commandLink action="/pages/user/listLots" >Лоты</h:commandLink></li></h:form>
+  	  </ul>
+ 	  </div>
+ 	  </td>
+ 	  <td width="3" class="textcentr">
+      <div class="sidebar2">
+   	  <ul class="nav">
+   	  <li><h:form> <h:commandLink action="/pages/user/listLots">Коментарии</h:commandLink></h:form></li>
+  	  </ul>
+ 	  </div>
+ 	  </td>   
+</ui:composition>    

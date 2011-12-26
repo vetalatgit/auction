@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 2.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"      
+      xmlns:h="http://java.sun.com/jsf/html">
+    <f:view contentType="text/html"/>
+    <ui:composition template="/template/master.xhtml">
+  	  <ui:define name="windowTitle">login
+  	  </ui:define>
+	 <ui:define name="topmeny">
+			<h:form>
+			<ul id="menu">
+				<li><h:commandLink action="/pages/hello" class="but1">Главная страница</h:commandLink></li>
+				<li><h:commandLink  class="but2_active" action="/pages/login" value="Войти" rendered="${facesContext.getCurrentInstance().getExternalContext().getRemoteUser() eq null}"/>
+     			 <h:commandLink rendered="${facesContext.getCurrentInstance().getExternalContext().getRemoteUser() ne null}" class="but2_active" action="${uspageb.logOut()}" value="Выйти"/></li>
+				<li><h:commandLink class="but3" action="/pages/regpage" value="Зарегестрироватся" /></li> 
+				 <li><h:commandLink action="/pages/regpage" class="but5" value="Поиск"/></li> 
+				<li><h:commandLink action="/pages/regpage" class="but6" value="Контакты"/></li>
+			<li><a></a></li>
+			<li>
+			<h:commandLink rendered="${facesContext.externalContext.isUserInRole('admin')}" action="/pages/admin/listUsers" class="but6">Администрирование</h:commandLink>
+			</li>
+			</ul>
+			</h:form>
+			</ui:define>
+	  <ui:define name="content">
+    <form action="j_security_check" method="POST">
+	<h:panelGrid columns="2" bgcolor="#F3F1E9" cellspacing="5" frame="box">
+	<h:outputLabel value="User Login:"/>
+	<h:inputText id="j_username" tabindex="1" />
+	<h:outputLabel value="#{msg['pages.login.loginform.passwd']}"/>
+	<h:inputSecret id="j_password"/>
+	<h:outputLabel value=""/>
+	<h:commandButton id="login"  value="Login"/>
+	</h:panelGrid>
+	</form>
+	<br/><br/><br/><br/>
+  </ui:define>   
+         <ui:define name="content3">
+   		<br/>
+ 		</ui:define> 
+</ui:composition> 
+</html>

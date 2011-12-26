@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core">
+    <f:view contentType="text/html"/>
+    <ui:composition template="/template/master.xhtml">
+  	  <ui:define name="windowTitle">admin_list_users
+  	  </ui:define> 
+ 	  	 <ui:define name="topmeny">
+			<h:form>
+			<ul id="menu">
+				<li><h:commandLink action="/pages/hello" class="but1">Главная страница</h:commandLink></li>
+				<li><h:commandLink  class="but2" action="/pages/login" value="Войти" rendered="${facesContext.getCurrentInstance().getExternalContext().getRemoteUser() eq null}"/>
+     			 <h:commandLink rendered="${facesContext.getCurrentInstance().getExternalContext().getRemoteUser() ne null}" class="but2" action="${uspageb.logOut()}" value="Выйти"/></li>
+				<li><h:commandLink class="but3_active" action="/pages/admin/listUsers">Пользователи</h:commandLink></li>
+				<li><h:commandLink class="but6" action="/pages/admin/listRads">Ставки</h:commandLink></li>
+				<li><h:commandLink class="but5" action="/pages/admin/listLots">Лоты</h:commandLink></li>
+			<li><a></a></li>
+			<li>
+			<h:commandLink rendered="${facesContext.externalContext.isUserInRole('admin')}" action="/pages/admin/listUsers" class="but6_active">Администрирование</h:commandLink>
+			</li>
+			</ul>
+			</h:form>
+			</ui:define>
+	  <ui:define name="content">
+	  <div id="content">
+
+	
+        <h:form>
+        <div id="add_user">
+ 	  <h:dataTable value="#{usersb.newUser}" var="nu" border="1" margin="11 auto"
+      cellpadding="2" cellspacing="0"
+    			styleClass="order-table"
+    			headerClass="order-table-header"
+    			rowClasses="order-table-odd-row,order-table-even-row">
+    			
+    			<h:column>
+    			<f:facet name="header">login</f:facet>
+    			<h:inputText value="#{nu.login}" size="10"   />
+         		</h:column>
+				 <h:column>
+ 				<f:facet name="header">name</f:facet>
+    			<h:inputText value="#{nu.name}" size="10"   />
+         		</h:column>
+         		
+         		<h:column>
+ 				<f:facet name="header">phone</f:facet>
+    			<h:inputText value="#{nu.phone}" size="10"   />
+         		</h:column>
+         		
+         		<h:column>
+ 				<f:facet name="header">rating</f:facet>
+    			<h:inputText value="#{nu.rating}" size="10"   />
+         		</h:column>
+ 				
+    			<h:column>
+    				<f:facet name="header">email</f:facet>
+    			<h:inputText value="#{nu.email}" size="10"   />
+    			</h:column>
+ 
+    			<h:column>
+    				<f:facet name="header">identnumb</f:facet>
+    				<h:inputText value="#{nu.identnumb}" size="10"   />
+         		</h:column>
+         		
+         		<h:column>
+    				<f:facet name="header">password</f:facet>
+    			<h:inputText value="#{nu.password}" size="10"   />
+    			</h:column>
+         	<h:column >	
+         	<f:facet name="header">role</f:facet>
+         <h:selectOneMenu  value="#{usersb.newUser.role}">
+   			<f:selectItems value="#{usersb.getRoles()}" />
+   		</h:selectOneMenu>
+		</h:column>
+    		</h:dataTable>
+    		<h:commandButton value="add" action="#{usersb.doAddUser()}" />
+    		</div>
+    		</h:form>
+    	
+ 
+    	<h1 id="userlist">Users list</h1>
+ 		<div id="list_user">
+ 		<h:outputText value="Users #{usersb.rendlist.firstEntity + 1}..#{usersb.rendlist.lastEntity} of
+     #{usersb.rendlist.count}"/>
+ 	<h:form id="listofusers">
+ 	<h:commandButton action="#{usersb.rendlist.prev}" value="&lt;&lt;#{usersb.rendlist.batchSize}"        
+       rendered="#{usersb.rendlist.renp}" /> 
+ 		 <h:commandButton  action="#{usersb.rendlist.next}" value="&gt;&gt;#{usersb.rendlist.batchSize}"
+    rendered="#{usersb.rendlist.renn}" />
+ 		</h:form>
+ 		<h:form margin="10px">
+    		<div id="list_user">
+    		<h:dataTable value="#{usersb.users}" var="u" border="1" 
+      cellpadding="2" cellspacing="0" 
+    			styleClass="order-table"
+    			headerClass="order-table-header"
+    			rowClasses="order-table-odd-row,order-table-even-row">
+    			<h:column >
+    			<f:facet name="header">id</f:facet>
+    			<h:outputText value="#{u.id}"/>
+    			</h:column>
+    			<h:column>
+    			<f:facet name="header"> login </f:facet>
+    			<h:outputText value="#{u.login}" rendered="#{not usersb.rendlist.isRendComp(u.id)}" />
+         		<h:inputText value="#{u.login}" size="10" rendered="#{usersb.rendlist.isRendComp(u.id)}" />
+         		</h:column>
+				 <h:column>
+ 				<f:facet name="header"> name </f:facet>
+    			<h:outputText value="#{u.name}" rendered="#{not usersb.rendlist.isRendComp(u.id)}" />
+         		<h:inputText value="#{u.name}" size="10" rendered="#{usersb.rendlist.isRendComp(u.id)}" />
+         		</h:column>
+         		
+         		<h:column>
+ 				<f:facet name="header"> phone </f:facet>
+    			<h:outputText value="#{u.phone}" rendered="#{not usersb.rendlist.isRendComp(u.id)}" />
+         		<h:inputText value="#{u.phone}" size="10" rendered="#{usersb.rendlist.isRendComp(u.id)}" />
+         		</h:column>
+         		
+         		<h:column>
+ 				<f:facet name="header"> rating </f:facet>
+    			<h:outputText value="#{u.rating}" rendered="#{not usersb.rendlist.isRendComp(u.id)}" />
+         		<h:inputText value="#{u.rating}" size="10" rendered="#{usersb.rendlist.isRendComp(u.id)}" />
+         		</h:column>
+ 				
+    			<h:column>
+    				<f:facet name="header"> email </f:facet>
+    			<h:inputText value="#{u.email}" size="10" rendered="#{usersb.rendlist.isRendComp(u.id)}" />
+    			<h:outputText value="#{u.email}"  rendered="#{not usersb.rendlist.isRendComp(u.id)}"/>
+    			</h:column>
+ 
+    			<h:column>
+    				<f:facet name="header"> identnumb </f:facet>
+    				<h:inputText value="#{u.identnumb}" size="10" rendered="#{usersb.rendlist.isRendComp(u.id)}" />
+         		<h:outputText value="#{u.identnumb}" rendered="#{not usersb.rendlist.isRendComp(u.id)}" />
+    			</h:column>
+    			
+    			<h:column rendered="${facesContext.externalContext.isUserInRole('admin')}">	
+         		<f:facet name="header"> role </f:facet>
+        		<h:selectOneMenu value="#{u.role}" rendered="#{usersb.rendlist.isRendComp(u.id)}">
+   				<f:selectItems value="#{usersb.getRoles()}" />
+   				</h:selectOneMenu>
+   			 	<h:outputText value="#{u.role}" rendered="#{not usersb.rendlist.isRendComp(u.id)}" />
+				</h:column>
+    		    
+    		    <h:column>
+    		    <f:facet name="header">del</f:facet>
+    			<h:commandButton value="del" action="#{usersb.deluser(u.id)}"/>
+    			</h:column>
+    		    
+    		     <h:column>
+    				<f:facet name="header">edit</f:facet>
+    			<h:commandButton value="edit" action="#{usersb.rendlist.chRendComp(u.id)}" rendered="#{not usersb.rendlist.isRendComp(u.id)}"/>
+    			</h:column>
+    			<h:column>
+    				<f:facet name="header">adress</f:facet>
+    			<h:commandButton value="adress" action="#{usersb.showAdress(u.id)}"/>
+    			</h:column>
+    			
+    		</h:dataTable>
+    		<h:commandButton value="save" action="#{usersb.editUser()}" />
+    		</div>
+    		</h:form>
+    		<h:form rendered="#{usersb.showadrusr}">	         		
+        	 <h:graphicImage id="waveImgli" url="#{resource[usersb.usadress.img]}" />
+         	<h:outputText value="#{usersb.usadress.user.name}" />
+    		<h:dataTable value="#{usersb.usadress}" var="a" border="1" 
+      cellpadding="2" cellspacing="0" 
+    			styleClass="order-table"
+    			headerClass="order-table-header"
+    			rowClasses="order-table-odd-row,order-table-even-row">
+    			<h:column>
+ 				<f:facet name="header">country</f:facet>
+         		<h:inputText value="#{a.country}" size="10"/>
+         		</h:column>
+    			<h:column>
+ 				<f:facet name="header">city</f:facet>
+         		<h:inputText value="#{a.city}" size="10"/>
+         		</h:column>
+         		<h:column>
+ 				<f:facet name="header">address</f:facet>
+         		<h:inputText value="#{a.addr}" size="10"/>
+         		</h:column>
+         		<h:column>
+ 				<f:facet name="header">userCode</f:facet>
+         		<h:inputText value="#{a.code}" size="10"/>
+         		</h:column>			
+    		</h:dataTable>
+    		<h:commandButton value="saveChange" action="#{usersb.chngUserAdress()}" />
+    		<h:commandButton value="hideInfo" action="#{usersb.setShowadrusr('false')}" />
+    		</h:form>
+    		</div></div>
+  </ui:define>   
+          	<ui:define name="content3">
+   		<br/>
+ 		</ui:define>  
+</ui:composition> 
+</html>

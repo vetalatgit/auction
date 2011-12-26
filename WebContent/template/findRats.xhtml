@@ -1,0 +1,31 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core">
+    <f:view contentType="text/html"/>
+<h:form style="float:left;">
+
+<div class="sidebar1" style="width:175px;padding:13px 32px 0 23px;">
+<div class="color">
+    
+     	<div><h:outputText value="lott name" size="10" /></div>
+    			<div><h:inputText value="#{radeb.namel}" size="10"/></div>
+ 				<div><h:outputText value="sale" size="10" /></div>
+ 				<div><h:selectOneMenu value="#{radeb.sale}">
+   				<f:selectItems value="#{radeb.getSale()}" />
+   				</h:selectOneMenu></div>
+ 				<div><h:outputText value="price" size="10" /></div>
+    			<div><h:inputText value="#{radeb.price}" size="10"/></div>
+ 				<div><h:outputText value="date" size="10" /></div>
+    			<div><h:inputText value="#{radeb.date.time}" size="10">
+    			<f:convertDateTime pattern="d-M-yyyy"/>
+    			<h:message for="date" style="color:red" />
+    			</h:inputText>
+    			</div>
+         	<div><h:outputText value="user" size="10" /></div>
+         	<div><h:inputText value="${radeb.fndUser}" size="10"/></div>
+         	
+       
+  </div></div>
+</h:form>    
+</ui:composition>  

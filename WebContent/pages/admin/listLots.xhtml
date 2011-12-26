@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:ui="http://java.sun.com/jsf/facelets"    
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:p="http://primefaces.prime.com.tr/ui"
+    xmlns:t="http://myfaces.apache.org/tomahawk">
+    <f:view contentType="text/html"/>
+    <ui:composition template="/template/master.xhtml">
+  	  <ui:define name="windowTitle">admin_list_users
+  	  </ui:define>
+  	  	 <ui:define name="topmeny">
+			<h:form>
+			<ul id="menu">
+				<li><h:commandLink action="/pages/hello" class="but1">Главная страница</h:commandLink></li>
+				<li><h:commandLink  class="but2" action="/pages/login" value="Войти" rendered="${facesContext.getCurrentInstance().getExternalContext().getRemoteUser() eq null}"/>
+     			 <h:commandLink rendered="${facesContext.getCurrentInstance().getExternalContext().getRemoteUser() ne null}" class="but2" action="${uspageb.logOut()}" value="Выйти"/></li>
+				<li><h:commandLink class="but3" action="/pages/admin/listUsers">Пользователи</h:commandLink></li>
+				<li><h:commandLink class="but6" action="/pages/admin/listRads">Ставки</h:commandLink></li>
+				<li><h:commandLink class="but5_active" action="/pages/admin/listLots">Лоты</h:commandLink></li>
+			<li><a></a></li>
+			<li>
+			<h:commandLink rendered="${facesContext.externalContext.isUserInRole('admin')}" action="/pages/admin/listUsers" class="but6_active">Администрирование</h:commandLink>
+			</li>
+			</ul>
+			</h:form>
+			</ui:define>
+	  <ui:define name="content">
+	  <div id="content">
+	  <h:form id="addingLott">
+ 	  <h:dataTable value="${lotservb.newLott}" var="nl" border="1" margin="11 auto"
+      cellpadding="2" cellspacing="0"
+    			styleClass="order-table"
+    			headerClass="order-table-header"
+    			rowClasses="order-table-odd-row,order-table-even-row">
+    			
+    			<h:column>
+    			<f:facet name="header">type</f:facet>
+    			<h:inputText value="#{nl.type}" size="10"   />
+         		</h:column>
+				 <h:column>
+ 				<f:facet name="header">name</f:facet>
+    			<h:inputText value="#{nl.name}" size="10"   />
+         		</h:column>
+         		
+         		<h:column>
+ 				<f:facet name="header">price</f:facet>
+    			<h:inputText value="#{nl.price}" size="10"   />
+         		</h:column>
+         		
+         		 <h:column>
+ 				<f:facet name="header">realprice</f:facet>
+    			<h:inputText value="#{nl.realprice}" size="10"   />
+         		</h:column>
+         		
+         		<h:column>
+ 				<f:facet name="header">datepay</f:facet>
+    			<h:inputText value="#{nl.datepay.time}" size="10">
+    			<f:convertDateTime pattern="d-M-yyyy"/>
+    			 </h:inputText>
+    			<h:message for="date" style="color:red" />
+         		</h:column>    
+         		<h:column>	
+         	<f:facet name="header">user</f:facet>
+            <h:selectOneMenu value="${lotservb.addinguser}">
+   			<f:selectItems value="${lotservb.getUsLogin()}" />
+   			</h:selectOneMenu>
+			</h:column>
+    		</h:dataTable>
+    		<h:commandButton value="add" action="${lotservb.doAddLott()}" />
+    		</h:form>
+		
+    
+		<br/>    
+		<div id="list_lots">
+    	<h:form id="listofLotts" >
+    	<h1 id="Lottlist">Lotts list</h1>
+ 		 <div><h:commandButton action="#{lotservb.findAll()}" value="show all" />
+ 		 <h:commandButton action="#{lotservb.removeAllFindes()}" value="Удалить все"/> </div>
+ 	<div><h:outputText value="Lotts #{lotservb.rendlist.firstEntity + 1}..#{lotservb.rendlist.lastEntity} of
+     #{lotservb.rendlist.count}"/> </div>
+ 	<h:commandButton action="${lotservb.rendlist.prev}" value="&lt;&lt;#{lotservb.rendlist.batchSize}"        
+       rendered="#{lotservb.rendlist.renp}" /> 
+ 		 <h:commandButton  action="${lotservb.rendlist.next}" value="&gt;&gt;#{lotservb.rendlist.batchSize}"
+    rendered="#{lotservb.rendlist.renn}" />
+ 		</h:form>
+ 		<h:form margin="10px">
+    		<h:dataTable value="${lotservb.lots}" var="l" border="1" 
+      cellpadding="2" cellspacing="0" 
+    			styleClass="order-table"
+    			headerClass="order-table-header"
+    			rowClasses="order-table-odd-row,order-table-even-row">
+    			<h:column >
+    			<f:facet name="header">id</f:facet>
+    			<h:outputText value="${l.id}"/>
+    			</h:column>
+    			<h:column>
+    			<f:facet name="header">datepay</f:facet>
+    			<h:outputText value="#{l.datepay.getTime()}" rendered="#{not lotservb.rendlist.isRendComp(l.id)}" >
+    			<f:convertDateTime pattern="d-M-yyyy"/>
+    			</h:outputText>
+         		<h:inputText value="#{l.datepay.time}" size="10" rendered="#{lotservb.rendlist.isRendComp(l.id)}" >
+         		<f:convertDateTime pattern="d-M-yyyy"/>
+         		</h:inputText>
+         		</h:column>
+				 <h:column>
+ 				<f:facet name="header">name</f:facet>
+    			<h:outputText value="#{l.name}" rendered="#{not lotservb.rendlist.isRendComp(l.id)}" />
+         		<h:inputText value="#{l.name}" size="10" rendered="#{lotservb.rendlist.isRendComp(l.id)}" />
+         		</h:column>
+         		
+         		<h:column>
+ 				<f:facet name="header">price</f:facet>
+    			<h:outputText value="#{l.price}" rendered="#{not lotservb.rendlist.isRendComp(l.id)}" />
+         		<h:inputText value="#{l.price}" size="10" rendered="#{lotservb.rendlist.isRendComp(l.id)}" />
+         		</h:column>
+         		
+         		<h:column>
+ 				<f:facet name="header">realprice</f:facet>
+    			<h:outputText value="#{l.realprice}" rendered="#{not lotservb.rendlist.isRendComp(l.id)}" />
+         		<h:inputText value="#{l.realprice}" size="10" rendered="#{lotservb.rendlist.isRendComp(l.id)}" />
+         		</h:column>
+ 				
+    			<h:column>
+    				<f:facet name="header">type</f:facet>
+    			<h:inputText value="#{l.type}" size="10" rendered="#{lotservb.rendlist.isRendComp(l.id)}" />
+    			<h:outputText value="#{l.type}"  rendered="#{not lotservb.rendlist.isRendComp(l.id)}"/>
+    			</h:column>
+    			<h:column>	
+         		<f:facet name="header">user</f:facet>
+        		<h:selectOneMenu value="#{lotservb.addinguser}" rendered="#{lotservb.rendlist.isRendComp(l.id)}">
+   				<f:selectItems value="#{lotservb.getUsLogin()}" />
+   				</h:selectOneMenu>
+   			 	<h:outputText value="#{lotservb.getUsrByLot(l.id)}" rendered="#{not lotservb.rendlist.isRendComp(l.id)}" />
+				</h:column>
+    		    <h:column>
+    		    <f:facet name="header">delete</f:facet>
+    			<h:commandButton value="del" action="${lotservb.dellott(l.id)}"/>
+    			</h:column>
+    		    
+    		     <h:column>
+    				<f:facet name="header">update</f:facet>
+    			<h:commandButton value="edit" action="${lotservb.rendlist.chRendComp(l.id)}" rendered="#{not lotservb.rendlist.isRendComp(l.id)}"/>
+    			</h:column>
+    			  <h:column>
+    				<f:facet name="header">lotdetails</f:facet>
+    			<h:commandButton value="showinfo" action="${lotservb.showLotDetail(l.id)}"/>
+    			</h:column>
+    		</h:dataTable>
+    		<h:commandButton value="save" class="button" action="${lotservb.editLott()}" />
+    		</h:form>
+    		<h:form rendered="#{lotservb.showlotdetail}" >
+    		<p align="left">
+    		</p>
+    		<p:galleria effect="fade" effectSpeed="1000">
+				
+				<ui:repeat var="lts" value="#{lotservb.lotdetail}">	
+				<h:graphicImage  url="#{resource[lts.img]}" title="#{lts.lott.name}"/>
+				</ui:repeat>
+			
+			</p:galleria> 
+			 <br/>
+			 <h:inputTextarea cols="60" rows="10" value="#{lotservb.newLott.text}">
+			 
+			 </h:inputTextarea>
+			 <br/>
+					<h:commandButton value="hide(save info)"
+						action="${lotservb.setShowlotdetail('false')}" actionListener="${lotservb.saveInfo()}"/>
+					<h:commandButton value="clearImages" action="${lotservb.delLottImages(lotservb.lottoshow)}" />
+    		</h:form>
+ </div>
+ </div>
+  </ui:define>
+  	  <ui:define name="menuLeft">
+     <ui:include src="/template/findLots.xhtml"/>
+  </ui:define>      
+        	<ui:define name="content3">
+   		<br/>
+ 		</ui:define>  
+ 		        	<ui:define name="content1">
+   		<div id="content">
+   		 <h:form id="uploadForm" enctype="multipart/form-data" rendered="#{lotservb.showlotdetail}">
+                <h:panelGrid columns="3">
+                    <h:outputLabel for="file" value="Загрузить файл" />
+                    <t:inputFileUpload id="file" value="#{lotservb.uploadedFile}" required="true" />
+                    <h:message for="file" style="color: red;" />
+                    <h:panelGroup />
+                    <h:commandButton value="Сохранить" action="#{lotservb.submit}"/>
+                    <h:message for="uploadForm" infoStyle="color: green;" errorStyle="color: red;" />
+                </h:panelGrid>
+            </h:form>
+            </div>
+ 		</ui:define>  
+ 		<ui:define name="content2">
+   		<br/>
+ 		</ui:define>  
+</ui:composition> 
+</html>

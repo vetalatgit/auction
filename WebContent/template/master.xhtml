@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:t="http://myfaces.apache.org/tomahawk">
+    <f:view contentType="text/html"/>
+    <f:loadBundle var="msg" basename="resources"/> 
+<h:head> 
+        <title> 
+        <ui:insert name="windowTitle">auction_home_page</ui:insert>
+        </title>
+       <link href="/auction2011/css/style.css" rel="stylesheet" type="text/css" media="all"/>
+<h:outputScript library="js" name="jquery-1.4.2.js" target="head" />
+<h:outputScript library="js" name="script.js" target="head" />
+<h:outputScript library="js" name="jquery.nivo.slider.pack.js" target="head" />
+</h:head>
+   
+<body>
+	<div id="header">
+		<div id="header_inside">
+			<img src="/auction2011/resources/images/header.jpg" alt="setalpm" width="999" height="222" border="0" usemap="#Map" /><br />																																										<div class="inner_copy"></div>
+			<ui:insert name="topmeny">
+			<h:form>
+			<ul id="menu">
+				<li><h:commandLink action="/pages/hello" class="but1">Главная страница</h:commandLink></li>
+				<li><h:commandLink  class="but2" action="/pages/login" value="Войти" rendered="${facesContext.getCurrentInstance().getExternalContext().getRemoteUser() eq null}"/>
+     			 <h:commandLink rendered="${facesContext.getCurrentInstance().getExternalContext().getRemoteUser() ne null}" class="but2" action="${uspageb.logOut()}" value="Выйти"/></li>
+				<li><h:commandLink class="but3" action="/pages/regpage" value="Зарегестрироватся" /></li> 
+				 <li><h:commandLink action="/pages/regpage" class="but5" value="Поиск"/></li> 
+				<li><h:commandLink action="/pages/regpage" class="but6" value="Контакты"/></li>
+			<li><a></a></li>
+			<li>
+			<h:commandLink rendered="${facesContext.externalContext.isUserInRole('admin')}" action="/pages/admin/listUsers" class="but6">Администрирование</h:commandLink>
+			</li>
+			</ul>
+			</h:form>
+			</ui:insert>
+		</div>
+	</div>
+<div id="wrapper">
+		<div id="content_inside">
+			
+				  <ui:insert name="menuLeft"> 
+				
+   						 <ui:include src="/template/lotTypes.xhtml"/>
+
+ 				 </ui:insert>
+			
+			  <ui:insert name="content"> 
+			<div id="content">
+            <div class="about">
+				<div id="slider">
+				<img src="/auction2011/resources/images/img1.jpg" alt=""/>
+				<img src="/auction2011/resources/images/img2.jpg" alt=""/>
+				<img src="/auction2011/resources/images/img3.jpg" alt=""/>
+				</div>
+                </div>
+			</div>
+			</ui:insert>
+			
+			<div id="main_block">
+				<div class="about">
+					<ui:insert name="content1">
+					<img src="/auction2011/resources/images/title2.gif" alt="" width="191" height="30" /><br />
+					<p>На сегодняшний день, согласно статистике, на Elephant.ua зарегистрированы 4 человека. Еще немного – и нас будет миллион! Мы рады, что вы, как и многие другие украинцы, уже оценили преимущества покупок и продаж на нашем Интернет-аукционе. С каждым днем пользователей Elephant.ua становится все больше. Это достижение станет уникальным для украинского интернета, и мы будем рады прийти к нему с Вашей помощью. Расскажите об Elephant.ua вашим родственникам, коллегам, собутильника, друзьям и знакомым – многим будет интересно покупать или продавать на Интернет-аукционе. Возможно, кто-то из них станет миллионным пользователем нашего Интернет-аукциона! </p>
+					<p><a href="#">Детальнее</a> </p>
+					</ui:insert>
+				</div>
+				<p>&nbsp;</p>	<ui:insert name="content2">
+				<div class="news">
+				
+					<img src="/auction2011/resources/images/title3.gif" alt="" width="69" height="30" /><br />
+					<p>Вот и настало время для сюрпризов и подарков! Акция «Будь первым!» стартует на Elephant.ua. С наступающим Новым годом! Конец мира скоро!!!)))</p>
+					
+				</div></ui:insert>
+				<div id="items">
+				<ui:insert name="content3">
+				 <ui:include src="/template/bestlot.xhtml"/>
+			</ui:insert>	
+			</div>
+			</div>
+		</div>
+	</div>
+		
+	<div id="footer">
+		<ui:insert name="footer">
+		<div id="footer_inside">
+			<ul class="footer_menu">
+				<li><a href="index.html">Главная страница</a>|</li>
+				<li><a href="index2.html">Новости</a>|</li>
+				<li><h:form><h:commandLink action="/pages/user/userMessage">Контакты</h:commandLink></h:form></li>
+			</ul><br /><br />
+																																																												<div class="inner_copy"><a href="http://www.beautifullife.info/">beautiful</a><a href="http://www.grungemagazine.com/">grunge</a></div>
+		</div>
+		</ui:insert>
+	</div>
+	<h:form> 
+    <map name="Map">
+
+       <area shape="rect" coords="78,45,312,119" href="/auction2011/faces/pages/hello.xhtml"/>
+      <area shape="poly" coords="834,52,885,61,878,105,828,96" href="/auction2011/faces/pages/hello.xhtml"/>
+         <area shape="poly" coords="776,124,818,152,793,189,751,160"> 
+         <h:commandLink action="#{uspageb.logOut()}">aa</h:commandLink>
+   		</area>
+       <area shape="poly" coords="670,87,719,78,727,123,677,130" href="/auction2011/faces/pages/hello.xhtml" ></area>
+  </map>
+	</h:form>
+	  
+	</body>
+</html>
